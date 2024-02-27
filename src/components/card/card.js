@@ -1,8 +1,10 @@
+"use client"
+
 import Image from "next/image";
 
 export default function Card() {
   return (
-    <div className="Card border border-gray-400 p-4 h-96 rounded-lg bg-sky-950">
+    <div className="Card border border-gray-400 p-4 h-96 rounded-lg bg-slate-950">
     <div className="Card-first h-1/6 flex justify-between">
       <div className="Card-first-left justify-start flex items-center gap-3">
         <div className="Card-first-left-left">
@@ -21,7 +23,6 @@ export default function Card() {
         <div className="Playtype text-white">
           솔로랭크
         </div>      
-        <div><Image src="/images/mic.png"width={30} height={30} alt="MicImage" /></div>
         <button className="detail border border-gray-400 rounded-lg text-white">
           더보기
         </button>

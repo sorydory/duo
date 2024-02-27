@@ -5,6 +5,7 @@ import { Fragment, useState } from 'react'
 import { Listbox, Transition } from '@headlessui/react'
 import { CheckIcon, ChevronUpDownIcon } from '@heroicons/react/20/solid'
 import Card from "@/components/card/card";
+import Duoform from "@/components/modal/duoform";
 
 const tier = [
   { name: '티어 선택' },
@@ -21,25 +22,36 @@ const tier = [
 
 export default function Home() {
   const [selected, setSelected] = useState(tier[0])
+  const [isModalOpen, setIsModalOpen] = useState(false); // 모달 열림/닫힘 상태 관리
+
+  const openModal = () => {
+    setIsModalOpen(true); // 모달 열기
+    console.log(isModalOpen);
+  }
+
+  const closeModal = () => {
+    setIsModalOpen(false); // 모달 닫기
+  }
+
   return (
     
-    <div className="flex justify-center items-center h-dvh bg-sky-950">
-      <div className="Main w-6/12 h-full p-4 bg-sky-900 rounded-lg  min-w-[960px]">
+    <div className="flex justify-center items-center h-dvh bg-slate-900">
+      <div className="Main w-6/12 h-full p-4 bg-slate-950 rounded-lg  min-w-[960px]">
         <div className="Header mb-4 h-10 flex justify-between gap-3">
         <div className="btn w-1/5 flex justify-center align-items">
-            <button className="Any bg-gray-300 hover:bg-gray-400 text-gray-800 font-bold py-1 px-1 rounded-l">
+            <button className="Top bg-slate-950 hover:bg-gray-400 text-gray-800 font-bold py-1 px-1 rounded-l">
               <Image src="/images/Position_Top.png" width={30} height={30} alt="Position_Top"/>
             </button>
-            <button className="bg-gray-300 hover:bg-gray-400 text-gray-800 font-bold py-1 px-1 rounded-c">
+            <button className="Jungle bg-slate-950 hover:bg-gray-400 text-gray-800 font-bold py-1 px-1 rounded-c">
              <Image src="/images/Position_Jungle.png" width={30} height={30} alt="Position_Top"/>
             </button>
-            <button className="Mid bg-gray-300 hover:bg-gray-400 text-gray-800 font-bold py-1 px-1 rounded-c">
+            <button className="Mid bg-slate-950 hover:bg-gray-400 text-gray-800 font-bold py-1 px-1 rounded-c">
               <Image src="/images/Position_Mid.png" width={30} height={30} alt="Position_Top"/>
             </button>
-            <button className="AD bg-gray-300 hover:bg-gray-400 text-gray-800 font-bold py-1 px-1 rounded-c">
+            <button className="AD bg-slate-950 hover:bg-gray-400 text-gray-800 font-bold py-1 px-1 rounded-c">
              <Image src="/images/Position_Bot.png" width={30} height={30} alt="Position_Top"/>
             </button>
-            <button className="Sup bg-gray-300 hover:bg-gray-400 text-gray-800 font-bold py-1 px-1 rounded-r">
+            <button className="Sup bg-slate-950 hover:bg-gray-400 text-gray-800 font-bold py-1 px-1 rounded-r">
              <Image src="/images/Position_Support.png" width={30} height={30} alt="Position_Top"/>
             </button>
         </div>
@@ -96,13 +108,15 @@ export default function Home() {
       </Listbox>
     </div>
           <div className="btn w-1/3 flex items-center justify-center">
-            <button className="bg-gray-300 hover:bg-gray-400 text-gray-800 font-bold py-2 px-4 rounded-l">솔로랭크</button>
-            <button className="bg-gray-300 hover:bg-gray-400 text-gray-800 font-bold py-2 px-4 rounded-c">자유랭크</button>
-            <button className="bg-gray-300 hover:bg-gray-400 text-gray-800 font-bold py-2 px-4 rounded-r">칼바람나락</button>
+            <button className="hover:text-yellow-600 text-white font-bold py-2 px-4 rounded-l">솔로랭크</button>
+            <button className="hover:text-yellow-600 text-white font-bold py-2 px-4 rounded-c">자유랭크</button>
+            <button className="hover:text-yellow-600 text-white font-bold py-2 px-4 rounded-c">일반게임</button>
+            <button className="hover:text-yellow-600 text-white font-bold py-2 px-4 rounded-r">칼바람나락</button>
           </div>
-          <button className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">듀오 구하기</button>
+          <button className="bg-yellow-600 hover:bg-white hover:text-yellow-600 text-white font-bold py-2 px-4 rounded" onClick={openModal}>듀오 구하기</button>
+          <Duoform isOpen={isModalOpen} onClose={closeModal} />
         </div>
-        <div className="Content">
+        <div className="Content p-4 space-y-4">
           <Card/>
           <Card/>
           <Card/>
