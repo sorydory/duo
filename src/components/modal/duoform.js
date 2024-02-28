@@ -62,7 +62,7 @@ export default function Duoform({ isOpen, onClose }) {
             </div>
             <div className="col-span-2">
               <label htmlFor="description" className="block mb-2 text-sm font-medium text-gray-900">
-                메모
+                내용
               </label>
               <select
                 id="category"

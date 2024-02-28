@@ -2,7 +2,7 @@
 
 import Image from "next/image";
 
-export default function Card() {
+export default function Card({ data }) {
   return (
     <div className="Card border border-gray-400 p-4 h-96 rounded-lg bg-slate-950">
     <div className="Card-first h-1/6 flex justify-between">
@@ -12,16 +12,16 @@ export default function Card() {
         </div>
         <div className="Card-first-left-right">
           <div className="Nickname text-white">
-            닉네임
+            {data.name}
           </div>
           <div className="LatestConnect text-white">
-            최근 접속일 : 1일 전
+            등록일시 : 1분 전
           </div>
         </div>
       </div>
       <div className="Card-first-right justify-end flex items-center gap-3">
         <div className="Playtype text-white">
-          솔로랭크
+          {data.type}
         </div>      
         <button className="detail border border-gray-400 rounded-lg text-white">
           더보기
@@ -30,7 +30,7 @@ export default function Card() {
     </div>
     <div className="Card-second h-1/3 flex items-center pl-3 border border-gray-300 ">
       <div className="text-white">
-        내용
+        {data.content}
       </div>
     </div>
     <div className="Card-third h-1/3 flex justify-between items-center">

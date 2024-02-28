@@ -20,6 +20,12 @@ const tier = [
   { name: '챌린져' },
 ]
 
+const dummy = [
+  { name: '패트릿', type: '솔로랭크', content: '같이 연승하실분'},
+  { name: '전성진', type: '자유랭크', content: '같이 연패하실분'},
+  { name: '페이커', type: '일반게임', content: '같이 즐겜하실분'}
+]
+
 export default function Home() {
   const [selected, setSelected] = useState(tier[0])
   const [isModalOpen, setIsModalOpen] = useState(false); // 모달 열림/닫힘 상태 관리
@@ -117,9 +123,9 @@ export default function Home() {
           <Duoform isOpen={isModalOpen} onClose={closeModal} />
         </div>
         <div className="Content p-4 space-y-4">
-          <Card/>
-          <Card/>
-          <Card/>
+        {dummy.map((item, index) => (
+              <Card key={index} data={item} />
+            ))}
         </div>
       </div>
     </div>
