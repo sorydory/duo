@@ -2,9 +2,9 @@
 
 import Image from "next/image";
 
-export default function Card({ data }) {
+export default function Card({ data, className }) {
   return (
-    <div className="Card border border-gray-400 p-4 h-96 rounded-lg bg-slate-950">
+    <div className={`Card border border-gray-400 p-4 h-96 rounded-lg bg-slate-950 ${className}`}>
     <div className="Card-first h-1/6 flex justify-between">
       <div className="Card-first-left justify-start flex items-center gap-3">
         <div className="Card-first-left-left">
