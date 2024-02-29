@@ -1,7 +1,7 @@
 "use client"; // TODO: 이후 Card와 분리 예정(Main:ServerSide , Card:ClientSide)
 
 import Image from "next/image";
-import { Fragment, useState } from 'react'
+import { Fragment, useState, useEffect } from 'react'
 import { Listbox, Transition } from '@headlessui/react'
 import { CheckIcon, ChevronUpDownIcon } from '@heroicons/react/20/solid'
 import Card from "@/components/card/card";
@@ -25,12 +25,16 @@ const dummy = [
   { name: '전성진', type: '자유랭크', content: '같이 연패하실분'},
   { name: '페이커', type: '일반게임', content: '같이 즐겜하실분'},
   {},
+  {},
+  {},
+  {},
   {}
 ]
 
 export default function Home() {
   const [selected, setSelected] = useState(tier[0])
   const [isModalOpen, setIsModalOpen] = useState(false); // 모달 열림/닫힘 상태 관리
+  const [visibleCards, setVisibleCards] = useState(5); // 현재 보이는 카드 수
 
   const openModal = () => {
     setIsModalOpen(true); // 모달 열기
@@ -40,6 +44,21 @@ export default function Home() {
   const closeModal = () => {
     setIsModalOpen(false); // 모달 닫기
   }
+
+    // 스크롤 감지하여 더 많은 카드 로드
+    useEffect(() => {
+      const handleScroll = () => {
+        if (
+          window.innerHeight + document.documentElement.scrollTop ===
+          document.documentElement.offsetHeight
+        ) {
+          setVisibleCards(prev => prev + 5); // 5장씩 추가적으로 보이도록 설정
+        }
+      };
+  
+      window.addEventListener('scroll', handleScroll);
+      return () => window.removeEventListener('scroll', handleScroll);
+    }, []);
 
   return (
     
@@ -125,7 +144,7 @@ export default function Home() {
           <Duoform isOpen={isModalOpen} onClose={closeModal} />
         </div>
         <div className="Content p-4 space-y-4">
-        {dummy.map((item, index) => (
+        {dummy.slice(0, visibleCards).map((item, index) => (
               <Card key={index} data={item} className={index === 0 ? 'mt-12' : ''} />
             ))}
         </div>
