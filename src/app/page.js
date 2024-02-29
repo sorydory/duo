@@ -20,21 +20,28 @@ const tier = [
   { name: '챌린져' },
 ]
 
+const quetype = [
+ '솔로랭크','자유랭크','칼바람나락', '일반게임'
+]
+
 const dummy = [
-  { name: '패트릿', type: '솔로랭크', content: '같이 연승하실분'},
-  { name: '전성진', type: '자유랭크', content: '같이 연패하실분'},
-  { name: '페이커', type: '일반게임', content: '같이 즐겜하실분'},
-  {},
-  {},
-  {},
-  {},
-  {}
+  { image: 'https://ddragon.leagueoflegends.com/cdn/10.6.1/img/profileicon/4529.png', reg_time: '1분 전', name: '패트릿', type: '솔로랭크', content: '같이 연승하실분'},
+  { image: 'https://ddragon.leagueoflegends.com/cdn/10.6.1/img/profileicon/4526.png', reg_time: '2분 전', name: '섭섭이', type: '솔로랭크', content: '같이 던지실 분'},
+  { image: 'https://ddragon.leagueoflegends.com/cdn/10.6.1/img/profileicon/4527.png', reg_time: '3분 전', name: '전성진', type: '자유랭크', content: '같이 연패하실분'},
+  { image: 'https://ddragon.leagueoflegends.com/cdn/10.6.1/img/profileicon/4530.png', reg_time: '1시간 전', name: '페이커', type: '일반게임', content: '같이 즐겜하실분'}
 ]
 
 export default function Home() {
   const [selected, setSelected] = useState(tier[0])
   const [isModalOpen, setIsModalOpen] = useState(false); // 모달 열림/닫힘 상태 관리
   const [visibleCards, setVisibleCards] = useState(5); // 현재 보이는 카드 수
+  const [selectedType, setSelectedType] = useState(null); // 큐타입 상태 업데이트 함수
+  const filteredDummy = dummy.filter(item => !selectedType || item.type === selectedType); // 선택된 유형에 따라 dummy 배열 필터링허는 함수
+
+  // 큐타입 버튼 클릭시 선택된 유형 업데이트 함수
+  const handleTypeFilter = (type) => {
+    setSelectedType(type);
+  };
 
   const openModal = () => {
     setIsModalOpen(true); // 모달 열기
@@ -64,7 +71,7 @@ export default function Home() {
     
     <div className="flex justify-center  h-full bg-slate-900">
       <div className="Main w-6/12 h-auto p-4 bg-slate-950 rounded-lg  min-w-[960px]">
-      <div className="Header mb-4 h-[40px] flex justify-between gap-3 top-0 z-10">
+      <div className="Header mb-4 h-[40px] flex justify-between gap-3 top-0 z-10 m-4">
         <div className="btn w-1/5 flex justify-center align-items">
             <button className="Top bg-slate-950 hover:bg-gray-400 text-gray-800 font-bold py-1 px-1 rounded-l">
               <Image src="/images/Position_Top.png" width={30} height={30} alt="Position_Top"/>
@@ -135,19 +142,24 @@ export default function Home() {
       </Listbox>
     </div>
           <div className="btn w-1/3 flex items-center justify-center">
-            <button className="hover:text-yellow-600 text-white font-bold py-2 px-4 rounded-l">솔로랭크</button>
-            <button className="hover:text-yellow-600 text-white font-bold py-2 px-4 rounded-c">자유랭크</button>
-            <button className="hover:text-yellow-600 text-white font-bold py-2 px-4 rounded-c">일반게임</button>
-            <button className="hover:text-yellow-600 text-white font-bold py-2 px-4 rounded-r">칼바람나락</button>
-          </div>
+        {quetype.map((type, index) => (
+          <button
+            key={index}
+            onClick={() => handleTypeFilter(type)}
+            className={`hover:text-yellow-600 text-white font-bold py-2 px-4 rounded${index === 0 ? '-l' : index === quetype.length - 1 ? '-r' : '-c'} ${selectedType === type ? 'bg-gray-400' : 'bg-gray-800'}`}
+          >
+            {type}
+          </button>
+        ))}
+      </div>
           <button className="bg-yellow-600 hover:bg-white hover:text-yellow-600 text-white font-bold py-2 px-4 rounded" onClick={openModal}>듀오 구하기</button>
           <Duoform isOpen={isModalOpen} onClose={closeModal} />
         </div>
-        <div className="Content p-4 space-y-4">
-        {dummy.slice(0, visibleCards).map((item, index) => (
-              <Card key={index} data={item} className={index === 0 ? 'mt-12' : ''} />
-            ))}
-        </div>
+          <div className="Content p-4 space-y-4">
+           {filteredDummy.slice(0, visibleCards).map((item, index) => (
+          <Card key={index} data={item} className={index === 0 ? 'mt-3' : ''} />
+        ))}
+          </div>
       </div>
     </div>
   );

@@ -10,14 +10,14 @@ export default function Card({ data, className }) {
     <div className="Card-first h-1/6 flex justify-between">
       <div className="Card-first-left justify-start flex items-center gap-3">
         <div className="Card-first-left-left">
-          <Image src="/images/flower.png" width={48} height={48} alt="FLowerImage"/>
+          <Image src={data.image} width={48} height={48} alt=""/>
         </div>
         <div className="Card-first-left-right">
           <div className="Nickname text-white">
             {data.name}
           </div>
           <div className="LatestConnect text-white">
-            등록일시 : 1분 전
+            {data.reg_time}
           </div>
         </div>
       </div>
@@ -26,7 +26,7 @@ export default function Card({ data, className }) {
           {data.type}
         </div>      
         <button className="detail  rounded-lg text-white">
-          <PencilSquareIcon width={24} height={24}/>
+          <PencilSquareIcon className="hover:bg-yellow"width={24} height={24}/>
         </button>
       </div>
     </div>
@@ -37,22 +37,31 @@ export default function Card({ data, className }) {
     </div>
     <div className="Card-third h-1/3 flex justify-between items-center">
       <div className="Solorank flex flex-col border border-gray-400 w-96 h-full">
-        <div className="h-1/5 text-white">솔로랭크</div>
-        <div className="h-4/5">
+        <div className="h-1/5 text-white text-center">솔로랭크</div>
+        <div className="h-3/5 flex justify-center">
           <Image src="/images/challenger.webp" width={64} height={64} alt="TierImage" />
         </div>  
+        <div className="h-1/5 text-white text-center">
+          1승 1패 (50%)
+        </div>
       </div>
       <div className="Teamrank flex flex-col border border-gray-400 w-96 h-full">
-      <div className="h-1/5 text-white">자유랭크</div>
-        <div className="h-4/5">
+      <div className="h-1/5 text-white text-center">자유랭크</div>
+        <div className="h-3/5 flex justify-center">
           <Image src="/images/challenger.webp" width={64} height={64} alt="TierImage" />
         </div>  
+        <div className="h-1/5 text-white text-center">
+          2승 1패 (67%)
+        </div>
         </div>  
       <div className="Mannerscore flex flex-col border border-gray-400 w-96 h-full">
-      <div className="h-1/5 text-white">매너점수</div>
-        <div className="h-4/5">
+      <div className="h-1/5 text-white text-center">매너점수</div>
+      <div className="h-3/5 flex justify-center">
           <Image src="/images/challenger.webp" width={64} height={64} alt="TierImage" />
         </div>  
+        <div className="h-1/5 text-white text-center">
+          100
+        </div>
       </div>
       </div>
     <div className="Card-fourth h-1/6 flex items-center pl-3 text-white border border-gray-300 ">
