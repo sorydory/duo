@@ -1,6 +1,8 @@
 "use client"
 
 import Image from "next/image";
+import Cubeicon from "../cubeicon/cubeicon";
+import { PencilSquareIcon } from "@heroicons/react/20/solid";
 
 export default function Card({ data, className }) {
   return (
@@ -23,8 +25,8 @@ export default function Card({ data, className }) {
         <div className="Playtype text-white">
           {data.type}
         </div>      
-        <button className="detail border border-gray-400 rounded-lg text-white">
-          더보기
+        <button className="detail  rounded-lg text-white">
+          <PencilSquareIcon width={24} height={24}/>
         </button>
       </div>
     </div>
@@ -54,7 +56,7 @@ export default function Card({ data, className }) {
       </div>
       </div>
     <div className="Card-fourth h-1/6 flex items-center pl-3 text-white border border-gray-300 ">
-      아이콘컴포넌트
+      <Cubeicon/>
     </div>
   </div>
 
