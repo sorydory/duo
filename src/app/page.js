@@ -24,6 +24,7 @@ const dummy = [
   { name: '패트릿', type: '솔로랭크', content: '같이 연승하실분'},
   { name: '전성진', type: '자유랭크', content: '같이 연패하실분'},
   { name: '페이커', type: '일반게임', content: '같이 즐겜하실분'},
+  {},
   {}
 ]
 
@@ -42,9 +43,9 @@ export default function Home() {
 
   return (
     
-    <div className="flex justify-center items-center h-dvh bg-slate-900">
+    <div className="flex justify-center  h-full bg-slate-900">
       <div className="Main w-6/12 h-auto p-4 bg-slate-950 rounded-lg  min-w-[960px]">
-      <div className="Header mb-4 h-[40px] flex justify-between gap-3 sticky top-0 z-10">
+      <div className="Header mb-4 h-[40px] flex justify-between gap-3 top-0 z-10">
         <div className="btn w-1/5 flex justify-center align-items">
             <button className="Top bg-slate-950 hover:bg-gray-400 text-gray-800 font-bold py-1 px-1 rounded-l">
               <Image src="/images/Position_Top.png" width={30} height={30} alt="Position_Top"/>
