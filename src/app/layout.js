@@ -11,6 +11,7 @@ export const metadata = {
 export default function RootLayout({ children }) {
   return (
     <html lang="en">
+        <link rel="icon" href="Rank=Challenger.png" />
       <body className={`${inter.className} bg-slate-900`}>{children}</body> 
     </html>
   );

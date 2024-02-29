@@ -1,4 +1,4 @@
-"use client"; // TODO: 이후 Card와 분리 예정(Main:ServerSide , Card:ClientSide)
+"use client";
 
 import Image from "next/image";
 import { Fragment, useState, useEffect } from 'react'
@@ -28,7 +28,7 @@ const dummy = [
   { image: 'https://ddragon.leagueoflegends.com/cdn/10.6.1/img/profileicon/4529.png', reg_time: '1분 전', name: '패트릿', type: '솔로랭크', content: '같이 연승하실분'},
   { image: 'https://ddragon.leagueoflegends.com/cdn/10.6.1/img/profileicon/4526.png', reg_time: '2분 전', name: '섭섭이', type: '솔로랭크', content: '같이 던지실 분'},
   { image: 'https://ddragon.leagueoflegends.com/cdn/10.6.1/img/profileicon/4527.png', reg_time: '3분 전', name: '전성진', type: '자유랭크', content: '같이 연패하실분'},
-  { image: 'https://ddragon.leagueoflegends.com/cdn/10.6.1/img/profileicon/4530.png', reg_time: '1시간 전', name: '페이커', type: '일반게임', content: '같이 즐겜하실분'}
+  { image: 'https://ddragon.leagueoflegends.com/cdn/10.6.1/img/profileicon/6.png', reg_time: '1시간 전', name: 'hide on bush', type: '일반게임', content: '같이 즐겜하실분'}
 ]
 
 export default function Home() {
@@ -72,7 +72,7 @@ export default function Home() {
     <div className="flex justify-center  h-full bg-slate-900">
       <div className="Main w-6/12 h-auto p-4 bg-slate-950 rounded-lg  min-w-[960px]">
       <div className="Header mb-4 h-[40px] flex justify-between gap-3 top-0 z-10 m-4">
-        <div className="btn w-1/5 flex justify-center align-items">
+        <div className="btn w-1/6 flex justify-center align-items">
             <button className="Top bg-slate-950 hover:bg-gray-400 text-gray-800 font-bold py-1 px-1 rounded-l">
               <Image src="/images/Position_Top.png" width={30} height={30} alt="Position_Top"/>
             </button>
@@ -142,11 +142,19 @@ export default function Home() {
       </Listbox>
     </div>
           <div className="btn w-1/3 flex items-center justify-center">
+             <button
+                onClick={() => handleTypeFilter(null)}
+                className={`hover:text-yellow-600 text-xs text-white font-bold py-2 px-4 rounded-l ${
+                  selectedType === null ? 'bg-gray-400' : 'bg-gray-800'
+                }`}
+              >
+                전체
+          </button>
         {quetype.map((type, index) => (
-          <button
+            <button
             key={index}
             onClick={() => handleTypeFilter(type)}
-            className={`hover:text-yellow-600 text-white font-bold py-2 px-4 rounded${index === 0 ? '-l' : index === quetype.length - 1 ? '-r' : '-c'} ${selectedType === type ? 'bg-gray-400' : 'bg-gray-800'}`}
+            className={`hover:text-yellow-600 text-white text-xs font-bold py-2 px-4 rounded${index === 0 ? '-c' : index === quetype.length - 1 ? '-r' : '-c'} ${selectedType === type ? 'bg-gray-400' : 'bg-gray-800'}`}
           >
             {type}
           </button>
