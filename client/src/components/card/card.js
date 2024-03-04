@@ -5,6 +5,27 @@ import Cubeicon from "../cubeicon/cubeicon";
 import { PencilSquareIcon } from "@heroicons/react/20/solid";
 
 export default function Card({ data, className }) {
+  
+  const calculateTimeDifference = (regTime) => {
+    const currentTime = new Date();
+    const registrationTime = new Date(regTime);
+    const timeDifference = Math.abs(currentTime - registrationTime);
+
+    const seconds = Math.floor(timeDifference / 1000);
+    const minutes = Math.floor(seconds / 60);
+    const hours = Math.floor(minutes / 60);
+    const days = Math.floor(hours / 24);
+
+    if (days > 0) {
+      return `${days}일 전`;
+    } else if (hours > 0) {
+      return `${hours}시간 전`;
+    } else if (minutes > 0) {
+      return `${minutes}분 전`;
+    } else {
+      return `${seconds}초 전`;
+    }
+  };
 
   return (
     <div className={`Card border border-gray-400 p-4 h-96 rounded-lg bg-slate-950 ${className}`}>
@@ -20,7 +41,7 @@ export default function Card({ data, className }) {
           </div>
         )}
           <div className="LatestConnect text-white">
-            {data.regTime}
+            {calculateTimeDifference(data.regTime)}
           </div>
         </div>
       </div>

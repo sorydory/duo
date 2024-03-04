@@ -7,6 +7,7 @@ import { CheckIcon, ChevronUpDownIcon } from '@heroicons/react/20/solid'
 import Card from "@/components/card/card";
 import Duoform from "@/components/modal/duoform";
 import { fetchData } from "@/components/card/data";
+import { CSSTransition, TransitionGroup } from "react-transition-group";
 
 const tier = [
   { name: '티어 선택' },
@@ -194,9 +195,13 @@ export default function Home() {
           <Duoform isOpen={isModalOpen} onClose={closeModal} />
         </div>
         <div className="Content p-4 space-y-4">
-        {filteredCards !== null && filteredCards.slice(0, visibleCards).map((card, index) => (
-          <Card key={index} data={card} className={index === 0 ? 'mt-3' : ''} />
-        ))}
+        <TransitionGroup>
+            {filteredCards !== null && filteredCards.slice(0, visibleCards).map((card, index) => (
+              <CSSTransition key={index} classNames="fade" timeout={500}>
+                <Card key={index} data={card} className={index === 0 ? 'mt-3' : ''} />
+              </CSSTransition>
+            ))}
+          </TransitionGroup>
       </div>
       </div>
     </div>
