@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Map;
 
 @RestController
 @RequestMapping("/api/cards")
@@ -19,12 +20,18 @@ public class CardController {
     }
 
     @GetMapping
-    public List<Card> getAllCards() {
-        return cardService.getAllCards();
+    public List<Card> findAllByOrderByRegTimeDesc() {
+        return cardService.findAllByOrderByRegTimeDesc();
     }
 
     @PostMapping
-    public Card createCard(@RequestBody Card card) {
-        return cardService.createCard(card);
+    public Card createCard(@RequestBody Map<String, String> requestData) {
+        String cardName = requestData.get("cardName");
+        String content = requestData.get("content");
+        String category = requestData.get("category");
+
+        // 현재시간은 서버에서 처리
+        return cardService.createCard(cardName, content, category);
     }
+
 }
