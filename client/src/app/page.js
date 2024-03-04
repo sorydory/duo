@@ -6,6 +6,7 @@ import { Listbox, Transition } from '@headlessui/react'
 import { CheckIcon, ChevronUpDownIcon } from '@heroicons/react/20/solid'
 import Card from "@/components/card/card";
 import Duoform from "@/components/modal/duoform";
+import { fetchData } from "@/components/card/data";
 
 const tier = [
   { name: '티어 선택' },
@@ -24,64 +25,77 @@ const quetype = [
  '솔로랭크','자유랭크','칼바람나락', '일반게임'
 ]
 
-const dummy = [
-  { image: 'https://ddragon.leagueoflegends.com/cdn/10.6.1/img/profileicon/4529.png', reg_time: '1분 전', name: '패트릿', type: '솔로랭크', content: '같이 연승하실분'},
-  { image: 'https://ddragon.leagueoflegends.com/cdn/10.6.1/img/profileicon/4526.png', reg_time: '2분 전', name: '섭섭이', type: '솔로랭크', content: '같이 던지실 분'},
-  { image: 'https://ddragon.leagueoflegends.com/cdn/10.6.1/img/profileicon/4527.png', reg_time: '3분 전', name: '전성진', type: '자유랭크', content: '같이 연패하실분'},
-  { image: 'https://ddragon.leagueoflegends.com/cdn/10.6.1/img/profileicon/6.png', reg_time: '1시간 전', name: 'hide on bush', type: '일반게임', content: '같이 즐겜하실분'}
-]
-
 export default function Home() {
   const [selected, setSelected] = useState(tier[0])
   const [isModalOpen, setIsModalOpen] = useState(false); // 모달 열림/닫힘 상태 관리
   const [visibleCards, setVisibleCards] = useState(5); // 현재 보이는 카드 수
   const [selectedType, setSelectedType] = useState(null); // 큐타입 상태 업데이트 함수
-  const filteredDummy = dummy.filter(item => !selectedType || item.type === selectedType); // 선택된 유형에 따라 dummy 배열 필터링허는 함수
+  const [filteredCards, setFilteredCards] = useState(null); // 새로운 상태 추가
+  const [cards, setCards] = useState(null);
+
+  useEffect(() => {
+    // 데이터를 불러오는 함수
+    const getData = async () => {
+      try {
+        const fetchedData = await fetchData();
+        setCards(fetchedData);
+      } catch (error) {
+        console.error('Failed to fetch data:', error);
+      }
+    };
+
+    // 페이지가 처음 로드될 때 데이터 불러오기
+    getData();
+
+    // 5초마다 데이터를 새로 불러오기
+    const interval = setInterval(() => {
+      getData();
+    }, 5000);
+
+    return () => clearInterval(interval); // 언마운트 시 interval 제거
+  }, []);
+
+  // 데이터가 변경될 때마다 큐타입 필터링 적용
+  useEffect(() => {
+    handleTypeFilter(selectedType);
+  }, [cards, selectedType]);
+
+  // 스크롤 감지하여 더 많은 카드 로드
+  const handleScroll = () => {
+    if (
+      window.innerHeight + document.documentElement.scrollTop ===
+      document.documentElement.offsetHeight
+    ) {
+      setVisibleCards(prev => prev + 5); // 5장씩 추가적으로 보이도록 설정
+    }
+  };
+
+  useEffect(() => {
+    window.addEventListener('scroll', handleScroll);
+    return () => window.removeEventListener('scroll', handleScroll);
+  }, []);
 
   // 큐타입 버튼 클릭시 선택된 유형 업데이트 함수
   const handleTypeFilter = (type) => {
     setSelectedType(type);
+
+    // 만약 선택된 유형이 null이라면 모든 카드를 보여줍니다.
+    if (type === null) {
+      setFilteredCards(cards);
+    } else {
+      // 선택된 유형에 해당하는 카드만 필터링합니다.
+      const filteredCards = cards.filter(card => card.category === type);
+      setFilteredCards(filteredCards);
+    }
   };
 
   const openModal = () => {
     setIsModalOpen(true); // 모달 열기
-    console.log(isModalOpen);
   }
 
   const closeModal = () => {
     setIsModalOpen(false); // 모달 닫기
   }
-
-    // 스크롤 감지하여 더 많은 카드 로드
-    useEffect(() => {
-      const handleScroll = () => {
-        if (
-          window.innerHeight + document.documentElement.scrollTop ===
-          document.documentElement.offsetHeight
-        ) {
-          setVisibleCards(prev => prev + 5); // 5장씩 추가적으로 보이도록 설정
-        }
-      };
-  
-      window.addEventListener('scroll', handleScroll);
-      return () => window.removeEventListener('scroll', handleScroll);
-    }, []);
-
-    const [cards, setCards] = useState(null);
-
-    useEffect(() => {
-      const getData = async () => {
-        try {
-          const fetchedData = await fetchData(); // fetchData 함수를 호출하여 데이터를 가져옴
-          setCards(fetchedData);
-        } catch (error) {
-          console.error('Failed to fetch data:', error);
-        }
-      };
-  
-      
-      getData();
-    }, []);
 
   return (
     
@@ -179,11 +193,11 @@ export default function Home() {
           <button className="bg-yellow-600 hover:bg-white hover:text-yellow-600 text-white font-bold py-2 px-4 rounded" onClick={openModal}>듀오 구하기</button>
           <Duoform isOpen={isModalOpen} onClose={closeModal} />
         </div>
-          <div className="Content p-4 space-y-4">
-           {filteredDummy.slice(0, visibleCards).map((item, index) => (
-          <Card key={index} data={item} className={index === 0 ? 'mt-3' : ''} />
+        <div className="Content p-4 space-y-4">
+        {filteredCards !== null && filteredCards.slice(0, visibleCards).map((card, index) => (
+          <Card key={index} data={card} className={index === 0 ? 'mt-3' : ''} />
         ))}
-          </div>
+      </div>
       </div>
     </div>
   );

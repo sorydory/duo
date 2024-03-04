@@ -1,10 +1,29 @@
-import React from 'react';
+import React, { useState } from 'react';
+import axios from 'axios'; // axios를 사용하여 서버에 HTTP 요청을 보냄
 
 export default function Duoform({ isOpen, onClose }) {
-  const handleFormSubmit = (e) => {
+  const [formData, setFormData] = useState({
+    cardName: '',
+    category: '솔로랭크',
+    content: '',
+  });
+
+  const handleInputChange = (e) => {
+    const { name, value } = e.target;
+    setFormData({ ...formData, [name]: value });
+  };
+
+  const handleFormSubmit = async (e) => {
     e.preventDefault();
-    // 여기에 폼 제출 로직 추가
-    onClose();
+    try {
+      // 서버에 POST 요청 보냄
+      await axios.post('http://localhost:8081/api/cards', formData);
+      // 성공적으로 요청이 완료되면 모달을 닫음
+      onClose();
+
+    } catch (error) {
+      console.error('Failed to create card:', error);
+    }
   };
 
   if (!isOpen) return null;
@@ -37,9 +56,11 @@ export default function Duoform({ isOpen, onClose }) {
               <input
                 type="text"
                 id="name"
-                name="name"
+                name="cardName"
                 className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-blue-500 focus:border-blue-500"
                 placeholder="hide on bush#KR1"
+                value={formData.cardName}
+                onChange={handleInputChange}
                 required
               />
             </div>
@@ -51,28 +72,27 @@ export default function Duoform({ isOpen, onClose }) {
                 id="category"
                 name="category"
                 className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-blue-500 focus:border-blue-500"
+                value={formData.category}
+                onChange={handleInputChange}
               >
-                <option value="solo" disabled selected>
-                  솔로랭크
-                </option>
-                <option value="team">자유랭크</option>
-                <option value="normal">일반게임</option>
-                <option value="aram">칼바람나락</option>
+                <option value="솔로랭크">솔로랭크</option>
+                <option value="자유랭크">자유랭크</option>
+                <option value="일반게임">일반게임</option>
+                <option value="칼바람나락">칼바람나락</option>
               </select>
             </div>
             <div className="col-span-2">
               <label htmlFor="description" className="block mb-2 text-sm font-medium text-gray-900">
                 내용
               </label>
-              <select
-                id="category"
-                name="category"
+              <textarea
+                id="description"
+                name="content"
                 className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-blue-500 focus:border-blue-500"
-              >
-                <option value="solo" disabled selected>
-                  같이 연승하실 매너 좋은 분 찾아요~
-                </option>
-              </select>
+                value={formData.content}
+                onChange={handleInputChange}
+                required
+              ></textarea>
             </div>
           </div>
           <button
