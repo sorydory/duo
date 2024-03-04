@@ -14,7 +14,7 @@ public class Card {
 
     private String description;
 
-    // 생성자, 게터, 세터 등 필요한 메소드들을 추가합니다.
+    // 생성자, 게터, 세터 등 필요한 메소드들을 추가
 
     public Card() {}
 

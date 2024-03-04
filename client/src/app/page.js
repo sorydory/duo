@@ -67,6 +67,22 @@ export default function Home() {
       return () => window.removeEventListener('scroll', handleScroll);
     }, []);
 
+    const [cards, setCards] = useState(null);
+
+    useEffect(() => {
+      const getData = async () => {
+        try {
+          const fetchedData = await fetchData(); // fetchData 함수를 호출하여 데이터를 가져옴
+          setCards(fetchedData);
+        } catch (error) {
+          console.error('Failed to fetch data:', error);
+        }
+      };
+  
+      
+      getData();
+    }, []);
+
   return (
     
     <div className="flex justify-center  h-full bg-slate-900">
