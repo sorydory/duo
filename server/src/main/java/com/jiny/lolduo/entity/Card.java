@@ -27,24 +27,23 @@ public class Card {
 
     @Column(name = "imageLink")
     private String imageLink;
+    @Column(name = "postition")
+    private String position;
+    @Column(name = "tier")
+    private String tier;
 
     // 생성자, 게터, 세터 등 필요한 메소드들을 추가
 
     public Card() {}
 
-    public Card(String cardName, String category, LocalDateTime regTime, String content, String imageLink) {
+    public Card(String cardName, String category, String position, String tier, LocalDateTime regTime, String content, String imageLink) {
         this.cardName = cardName;
         this.category = category;
+        this.position = position;
+        this.tier = tier;
         this.regTime = String.valueOf(regTime);
         this.content = content;
         this.imageLink = imageLink;
-    }
-
-    public Card(String cardName, String content, String category, LocalDateTime regTime) {
-        this.cardName = cardName;
-        this.category = category;
-        this.content = content;
-        this.regTime = String.valueOf(regTime);
     }
 
 
@@ -65,11 +64,11 @@ public class Card {
         this.cardName = cardName;
     }
 
-    public String getcategory() {
+    public String getCategory() {
         return category;
     }
 
-    public void setcategory(String category) {
+    public void setCategory(String category) {
         this.category = category;
     }
 
@@ -95,5 +94,21 @@ public class Card {
 
     public void setImageLink(String imageLink) {
         this.imageLink = imageLink;
+    }
+
+    public String getPosition() {
+        return position;
+    }
+
+    public void setPosition(String imageLink) {
+        this.position = position;
+    }
+
+    public String getTier() {
+        return tier;
+    }
+
+    public void setTier(String tier) {
+        this.tier = tier;
     }
 }

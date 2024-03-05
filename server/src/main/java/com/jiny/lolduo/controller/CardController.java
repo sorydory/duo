@@ -29,9 +29,11 @@ public class CardController {
         String cardName = requestData.get("cardName");
         String content = requestData.get("content");
         String category = requestData.get("category");
+        String position = requestData.get("position");
+        String tier = requestData.get("tier");
 
         // 현재시간은 서버에서 처리
-        return cardService.createCard(cardName, content, category);
+        return cardService.createCard(cardName, content, category, position, tier);
     }
 
 }
