@@ -1,33 +1,18 @@
 "use client";
 
 import Image from "next/image";
-import { Fragment, useState, useEffect } from 'react'
-import { Listbox, Transition } from '@headlessui/react'
-import { CheckIcon, ChevronUpDownIcon } from '@heroicons/react/20/solid'
+import { useState, useEffect } from 'react'
 import Card from "@/components/card/card";
 import Duoform from "@/components/modal/duoform";
 import { fetchData } from "@/components/card/data";
 import { CSSTransition, TransitionGroup } from "react-transition-group";
 
-const tier = [
-  { name: '티어 선택' },
-  { name: '아이언' },
-  { name: '브론즈' },
-  { name: '실버' },
-  { name: '골드' },
-  { name: '플레티넘' },
-  { name: '다이아몬드' },
-  { name: '마스터' },
-  { name: '그랜드마스터' },
-  { name: '챌린져' },
-]
 
 const quetype = [
  '솔로랭크','자유랭크','칼바람나락', '일반게임'
 ]
 
 export default function Home() {
-  const [selected, setSelected] = useState(tier[0])
   const [isModalOpen, setIsModalOpen] = useState(false); // 모달 열림/닫힘 상태 관리
   const [visibleCards, setVisibleCards] = useState(5); // 현재 보이는 카드 수
   const [selectedType, setSelectedType] = useState(null); // 큐타입 상태 업데이트 함수
@@ -51,7 +36,7 @@ export default function Home() {
     // 5초마다 데이터를 새로 불러오기
     const interval = setInterval(() => {
       getData();
-    }, 5000);
+    }, 1000);
 
     return () => clearInterval(interval); // 언마운트 시 interval 제거
   }, []);
@@ -120,57 +105,19 @@ export default function Home() {
              <Image src="/images/Position_Support.png" width={30} height={30} alt="Position_Top"/>
             </button>
         </div>
-        <div className="w-1/6">
-      <Listbox value={selected} onChange={setSelected}>
-        <div className="relative mt-1">
-          <Listbox.Button className="relative w-full cursor-default rounded-lg bg-white py-2 pl-3 pr-10 text-left shadow-md focus:outline-none focus-visible:border-indigo-500 focus-visible:ring-2 focus-visible:ring-white/75 focus-visible:ring-offset-2 focus-visible:ring-offset-orange-300 sm:text-sm">
-            <span className="block truncate">{selected.name}</span>
-            <span className="pointer-events-none absolute inset-y-0 right-0 flex items-center pr-2">
-              <ChevronUpDownIcon
-                className="h-5 w-5 text-gray-400"
-                aria-hidden="true"
-              />
-            </span>
-          </Listbox.Button>
-          <Transition
-            as={Fragment}
-            leave="transition ease-in duration-100"
-            leaveFrom="opacity-100"
-            leaveTo="opacity-0"
-          >
-            <Listbox.Options className="absolute mt-1 max-h-60 w-full overflow-auto rounded-md bg-white py-1 text-base shadow-lg ring-1 ring-black/5 focus:outline-none sm:text-sm">
-              {tier.map((person, personIdx) => (
-                <Listbox.Option
-                  key={personIdx}
-                  className={({ active }) =>
-                    `relative cursor-default select-none py-2 pl-10 pr-4 ${
-                      active ? 'bg-amber-100 text-amber-900' : 'text-gray-900'
-                    }`
-                  }
-                  value={person}
-                >
-                  {({ selected }) => (
-                    <>
-                      <span
-                        className={`block truncate ${
-                          selected ? 'font-medium' : 'font-normal'
-                        }`}
-                      >
-                        {person.name}
-                      </span>
-                      {selected ? (
-                        <span className="absolute inset-y-0 left-0 flex items-center pl-3 text-amber-600">
-                          <CheckIcon className="h-5 w-5" aria-hidden="true" />
-                        </span>
-                      ) : null}
-                    </>
-                  )}
-                </Listbox.Option>
-              ))}
-            </Listbox.Options>
-          </Transition>
-        </div>
-      </Listbox>
+        <div className="w-1/6  flex items-center">
+        <select className="text-sm w-64 h-8">
+          <option value="iron">아이언</option>
+          <option value="bronze">브론즈</option>
+          <option value="silver">실버</option>
+          <option value="gold">골드</option>
+          <option value="platinum">플레티넘</option>
+          <option value="emerald">에메랄드</option>
+          <option value="diamond">다이아몬드</option>
+          <option value="master">마스터</option>
+          <option value="grandmaster">그랜드마스터</option>
+          <option value="challenger">챌린져</option>
+        </select>
     </div>
           <div className="btn w-1/3 flex items-center justify-center">
              <button

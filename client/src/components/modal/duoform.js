@@ -4,9 +4,12 @@ import axios from 'axios'; // axios를 사용하여 서버에 HTTP 요청을 보
 export default function Duoform({ isOpen, onClose }) {
   const [formData, setFormData] = useState({
     cardName: '',
-    category: '솔로랭크',
+    category: 'solo',
+    position: 'top',
+    tier: 'iron',
     content: '',
   });
+  const [errorMessage, setErrorMessage] = useState('');
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;
@@ -15,16 +18,32 @@ export default function Duoform({ isOpen, onClose }) {
 
   const handleFormSubmit = async (e) => {
     e.preventDefault();
+
+    // 유효성 검사
+    if (!formData.cardName || !formData.content) {
+      setErrorMessage('소환사 이름과 내용은 필수 입력 항목입니다.');
+      return;
+    }
+
+    // 소환사 이름에 # 뒤에 아무 문자가 있는지 확인
+    const hasValidTag = formData.cardName.split('#')[1];
+    if (!hasValidTag) {
+      setErrorMessage('소환사 이름은 # 뒤에 아무 문자가 포함되어야 합니다.');
+      return;
+    }
+
     try {
       // 서버에 POST 요청 보냄
       await axios.post('http://localhost:8081/api/cards', formData);
       // 성공적으로 요청이 완료되면 모달을 닫음
       onClose();
-
     } catch (error) {
       console.error('Failed to create card:', error);
     }
   };
+
+  
+  
 
   if (!isOpen) return null;
 
@@ -47,6 +66,11 @@ export default function Duoform({ isOpen, onClose }) {
             </svg>
           </button>
         </div>
+        {errorMessage && (
+          <div className="text-red-500 mb-4">
+            <span className="block">{errorMessage}</span>
+          </div>
+        )}
         <form onSubmit={handleFormSubmit}>
           <div className="grid grid-cols-2 gap-4 mb-4">
             <div>
@@ -64,7 +88,7 @@ export default function Duoform({ isOpen, onClose }) {
                 required
               />
             </div>
-            <div className="col-span-2">
+            <div className="col-span-1">
               <label htmlFor="category" className="block mb-2 text-sm font-medium text-gray-900">
                 큐 타입
               </label>
@@ -75,10 +99,51 @@ export default function Duoform({ isOpen, onClose }) {
                 value={formData.category}
                 onChange={handleInputChange}
               >
-                <option value="솔로랭크">솔로랭크</option>
-                <option value="자유랭크">자유랭크</option>
-                <option value="일반게임">일반게임</option>
-                <option value="칼바람나락">칼바람나락</option>
+                <option value="solo">솔로랭크</option>
+                <option value="team">자유랭크</option>
+                <option value="normal">일반게임</option>
+                <option value="aram">칼바람나락</option>
+              </select>
+            </div>
+            <div className="col-span-1">
+              <label htmlFor="position" className="block mb-2 text-sm font-medium text-gray-900">
+                포지션
+              </label>
+              <select
+                id="position"
+                name="position"
+                className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-blue-500 focus:border-blue-500"
+                value={formData.position}
+                onChange={handleInputChange}
+              >
+                <option value="top">탑</option>
+                <option value="jungle">정글</option>
+                <option value="mid">미드</option>
+                <option value="ad">원딜</option>
+                <option value="support">서폿</option>
+              </select>
+            </div>
+            <div className="col-span-1">
+              <label htmlFor="tier" className="block mb-2 text-sm font-medium text-gray-900">
+                티어
+              </label>
+              <select
+                id="tier"
+                name="tier"
+                className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-blue-500 focus:border-blue-500"
+                value={formData.tier}
+                onChange={handleInputChange}
+              >
+                <option value="iron">아이언</option>
+                <option value="bronze">브론즈</option>
+                <option value="silver">실버</option>
+                <option value="gold">골드</option>
+                <option value="platinum">플레티넘</option>
+                <option value="emerald">에메랄드</option>
+                <option value="diamond">다이아몬드</option>
+                <option value="master">마스터</option>
+                <option value="grandmaster">그랜드마스터</option>
+                <option value="challenger">챌린져</option>
               </select>
             </div>
             <div className="col-span-2">

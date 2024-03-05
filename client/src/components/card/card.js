@@ -5,7 +5,7 @@ import Cubeicon from "../cubeicon/cubeicon";
 import { PencilSquareIcon } from "@heroicons/react/20/solid";
 
 export default function Card({ data, className }) {
-  
+
   const calculateTimeDifference = (regTime) => {
     const currentTime = new Date();
     const registrationTime = new Date(regTime);
@@ -27,6 +27,22 @@ export default function Card({ data, className }) {
     }
   };
 
+  const convertCategoryToDisplayName = (category) => {
+    switch (category) {
+      case 'solo':
+        return '솔로랭크';
+      case 'team':
+        return '자유랭크';
+      case 'normal':
+        return '일반게임';
+      case 'aram':
+        return '칼바람나락';
+      default:
+        return category; // 만약에 해당하지 않는 경우 그대로 반환
+    }
+  };
+  
+
   return (
     <div className={`Card border border-gray-400 p-4 h-96 rounded-lg bg-slate-950 ${className}`}>
     <div className="Card-first h-1/6 flex justify-between">
@@ -36,7 +52,7 @@ export default function Card({ data, className }) {
         </div>
         <div className="Card-first-left-right">
         {data !== null && (
-          <div className="Nickname text-white">
+          <div className="Nickname text-yellow-500">
             {data.cardName}
           </div>
         )}
@@ -47,7 +63,7 @@ export default function Card({ data, className }) {
       </div>
       <div className="Card-first-right justify-end flex items-center gap-3">
         <div className="Playtype text-white">
-          {data.category}
+          {convertCategoryToDisplayName(data.category)}
         </div>      
         <button className="detail  rounded-lg text-white">
           <PencilSquareIcon className="hover:bg-yellow"width={24} height={24}/>
@@ -63,7 +79,7 @@ export default function Card({ data, className }) {
       <div className="Solorank flex flex-col border border-gray-400 w-96 h-full">
         <div className="h-1/5 text-white text-center">솔로랭크</div>
         <div className="h-3/5 flex justify-center">
-          <Image src="/images/challenger.webp" width={64} height={64} alt="TierImage" />
+        <Image src={`/images/Rank=${data.tier}.png`} width={64} height={64} alt="TierImage" />
         </div>  
         <div className="h-1/5 text-white text-center">
           1승 1패 (50%)
@@ -72,7 +88,7 @@ export default function Card({ data, className }) {
       <div className="Teamrank flex flex-col border border-gray-400 w-96 h-full">
       <div className="h-1/5 text-white text-center">자유랭크</div>
         <div className="h-3/5 flex justify-center">
-          <Image src="/images/challenger.webp" width={64} height={64} alt="TierImage" />
+          <Image src={`/images/Rank=${data.tier}.png`} width={64} height={64} alt="TierImage" />
         </div>  
         <div className="h-1/5 text-white text-center">
           2승 1패 (67%)
@@ -89,7 +105,7 @@ export default function Card({ data, className }) {
       </div>
       </div>
     <div className="Card-fourth h-1/6 flex items-center pl-3 text-white border border-gray-300 ">
-      <Cubeicon/>
+      <Cubeicon position={data.position}/> 
     </div>
   </div>
 
