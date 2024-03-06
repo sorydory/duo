@@ -82,7 +82,7 @@ export default function Card({ data, className }) {
         <Image src={`/images/Rank=${data.tier}.png`} width={64} height={64} alt="TierImage" />
         </div>  
         <div className="h-1/5 text-white text-center">
-          1승 1패 (50%)
+          {data.tier}
         </div>
       </div>
       <div className="Teamrank flex flex-col border border-gray-400 w-96 h-full">
@@ -91,7 +91,7 @@ export default function Card({ data, className }) {
           <Image src={`/images/Rank=${data.tier}.png`} width={64} height={64} alt="TierImage" />
         </div>  
         <div className="h-1/5 text-white text-center">
-          2승 1패 (67%)
+          {data.tier}
         </div>
         </div>  
       <div className="Mannerscore flex flex-col border border-gray-400 w-96 h-full">
@@ -100,7 +100,7 @@ export default function Card({ data, className }) {
           <Image src="/images/challenger.webp" width={64} height={64} alt="TierImage" />
         </div>  
         <div className="h-1/5 text-white text-center">
-          100
+          100(준비중)
         </div>
       </div>
       </div>
